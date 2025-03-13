@@ -1,6 +1,10 @@
 package com.Books.bookDetails.Controller;
 
 import com.Books.bookDetails.Entity.book;
+import com.Books.bookDetails.Repository.bookRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,11 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
+
 public class Bookcontroller {
+    @Autowired
+    bookRepository bookrepo;
 
     @PostMapping("/book")
-    public void saveBook(@RequestBody  book book){
-    System.out.println("hi your work has succeed");
+    public ResponseEntity<book> saveBook(@RequestBody  book book){
+       return new ResponseEntity<>(bookrepo.save(book),HttpStatus.CREATED);
     }
 
 }
