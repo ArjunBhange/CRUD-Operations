@@ -28,10 +28,24 @@ public class Bookcontroller {
         return new ResponseEntity<>(bookrepo.findAll(),HttpStatus.OK);
     }
     @GetMapping("/book/{id}")
-    public ResponseEntity<List<book>> getbook(@PathVariable long id){
+    public ResponseEntity<book> getbook(@PathVariable long id){
         Optional<book> book2=bookrepo.findById(id);
         if(book2.isPresent()){
-            return new ResponseEntity<>(new ArrayList<book>(book2),HttpStatus.OK);
+            return new ResponseEntity<>(book2.get(),HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @PutMapping("/book/{id}")
+    public ResponseEntity<book> setbook(@PathVariable long id,@RequestBody book book3){
+        Optional<book> book2=bookrepo.findById(id);
+        if(book2.isPresent()){
+            book2.get().setAuthor(book3.getAuthor());
+            book2.get().setTitle(book3.getTitle());
+            book2.get().setTitle(book3.getAvailable());
+            book2.get().setTitle(book3.getCategory());
+
+            return new ResponseEntity<>(bookrepo.save(book2.get()),HttpStatus.OK);
         }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
