@@ -23,5 +23,5 @@ public class Bookcontroller {
     public ResponseEntity<book> saveBook(@RequestBody  book book){
        return new ResponseEntity<>(bookrepo.save(book),HttpStatus.CREATED);
     }
-
+         
 }
