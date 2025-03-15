@@ -42,10 +42,22 @@ public class Bookcontroller {
         if(book2.isPresent()){
             book2.get().setAuthor(book3.getAuthor());
             book2.get().setTitle(book3.getTitle());
-            book2.get().setTitle(book3.getAvailable());
-            book2.get().setTitle(book3.getCategory());
-
+            book2.get().setAvailable(book3.getAvailable());
+            book2.get().setCategory(book3.getCategory());
+            book2.get().setIsbn(book3.getIsbn());
+            book2.get().setPrice(book3.getPrice());
+            book2.get().setPublishedDate(book3.getPublishedDate());
             return new ResponseEntity<>(bookrepo.save(book2.get()),HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @DeleteMapping ("/book/{id}")
+    public ResponseEntity<Void> deletebook(@PathVariable long id){
+        Optional<book> book2=bookrepo.findById(id);
+        if(book2.isPresent()){
+            bookrepo.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
